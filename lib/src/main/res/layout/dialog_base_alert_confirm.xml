@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_base_dialog_alert_confirm">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp15"
+        android:paddingTop="@dimen/dp20"
+        android:paddingRight="@dimen/dp15"
+        android:text="这是标题这是标题这是标题这是标题这是标题"
+        android:textColor="#444444"
+        android:textSize="@dimen/dp17"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/txtContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp15"
+        android:paddingTop="@dimen/dp10"
+        android:paddingRight="@dimen/dp15"
+        android:text="这是描述这是描述这是描述这是描述这是描述这是描述这是描述"
+        android:textColor="#777777"
+        android:textSize="@dimen/dp16"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+        app:layout_goneMarginTop="@dimen/dp15"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/viewSep"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/dp20"
+        android:background="#aaaaaa"
+        app:layout_constraintTop_toBottomOf="@+id/txtContent"></View>
+
+    <TextView
+        android:id="@+id/txtCancel"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp55"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="#444444"
+        android:textSize="@dimen/dp17"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/viewSep2"
+        app:layout_constraintTop_toBottomOf="@+id/viewSep" />
+
+    <View
+        android:id="@+id/viewSep2"
+        android:layout_width="1px"
+        android:layout_height="@dimen/dp55"
+        android:background="#aaaaaa"
+        app:layout_constraintLeft_toRightOf="@+id/txtCancel"
+        app:layout_constraintRight_toLeftOf="@+id/txtSubmit"
+        app:layout_constraintTop_toBottomOf="@+id/viewSep">
+
+    </View>
+
+    <TextView
+        android:id="@+id/txtSubmit"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp55"
+        android:gravity="center"
+        android:text="确认"
+        android:textColor="#444444"
+        android:textSize="@dimen/dp17"
+        app:layout_constraintLeft_toRightOf="@+id/viewSep2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewSep" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

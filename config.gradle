@@ -1,0 +1,42 @@
+ext {
+    versions = [
+            compileSdkVersion  : 28,
+            buildToolsVersion  : "28.0.3",
+            minSdkVersion      : 19,
+            targetSdkVersion   : 28,
+            versionCode        : 1,
+            versionName        : "1.0",
+            sourceCompatibility: JavaVersion.VERSION_1_8,
+            targetCompatibility: JavaVersion.VERSION_1_8
+    ]
+
+    dependencies = [
+            "appcompat"                    : 'androidx.appcompat:appcompat:1.0.0',
+            "constraint"                   : 'androidx.constraintlayout:constraintlayout:1.1.3',
+            'barlibrary'                   : 'com.gyf.barlibrary:barlibrary:2.3.0',
+            'backgroundlibrary'            : 'com.noober.background:core:1.3.7',
+            'butterknife'                  : 'com.jakewharton:butterknife:10.1.0',
+            'butterknifecompiler'          : 'com.jakewharton:butterknife-compiler:10.1.0',
+            'databinding'                  : 'androidx.databinding:databinding-runtime:3.2.0',
+            'blankjutil'                   : 'com.blankj:utilcode:1.24.0',
+            'soulpermission'               : 'com.qw:soulpermission:1.1.7',
+            'rxjava2'                      : "io.reactivex.rxjava2:rxjava:2.2.8",
+            'rxandroid2'                   : "io.reactivex.rxjava2:rxandroid:2.1.0",
+            'retrofit2'                    : 'com.squareup.retrofit2:retrofit:2.5.0',
+            'retrofit2rxjava'              : 'com.squareup.retrofit2:adapter-rxjava2:2.5.0',
+            'okhttp3logging'               : 'com.squareup.okhttp3:logging-interceptor:3.12.1',
+            'retrofit2fastjson'            : 'com.github.BaronZ88:Retrofit2-FastJson-Converter:1.2',
+            'fastjson'                     : 'com.alibaba:fastjson:1.2.58',
+            'autodisposeandroid'           : 'com.uber.autodispose:autodispose-android:1.3.0',
+            'autodisposearchcomponents'    : 'com.uber.autodispose:autodispose-android-archcomponents:1.3.0',
+            'singleclick'                  : 'com.github.jarryleo:SingleClick:v1.8',
+            'glide'                        : 'com.github.bumptech.glide:glide:4.9.0',
+            'glidecompiler'                : 'com.github.bumptech.glide:compiler:4.9.0',
+            'hawk'                         : 'com.orhanobut:hawk:2.0.1',
+            'arouter'                      : 'com.alibaba:arouter-api:1.5.0',
+            'aroutercompiler'              : 'com.alibaba:arouter-compiler:1.2.2',
+            'recyclerview'                 : 'androidx.recyclerview:recyclerview:1.0.0',
+            'lombok'                       : 'org.projectlombok:lombok:1.18.8',
+            'baserecyclerviewadapterhelper': 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45'
+    ]
+}

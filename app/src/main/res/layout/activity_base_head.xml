@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:id="@+id/layoutBaseStatusBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutBaseActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"
+        android:background="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/layoutBaseStatusBar"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imgBaseBack"
+            android:layout_width="@dimen/dp40"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dp13"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_base_back_black"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/txtBaseBack"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxWidth="@dimen/dp200"
+            android:minWidth="@dimen/dp40"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
+            android:singleLine="true"
+            android:textColor="#666666"
+            android:textSize="@dimen/dp14"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:text="这个是左边" />
+
+        <TextView
+            android:id="@+id/txtBaseTitle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
+            android:singleLine="true"
+            android:textColor="#666666"
+            android:textSize="@dimen/dp15"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/txtBaseBack"
+            app:layout_constraintRight_toLeftOf="@+id/txtBaseFunction"
+            app:layout_goneMarginLeft="@dimen/dp40"
+            app:layout_goneMarginRight="@dimen/dp40"
+            tools:text="标题" />
+
+        <TextView
+            android:id="@+id/txtBaseFunction"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxWidth="@dimen/dp200"
+            android:minWidth="@dimen/dp40"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
+            android:singleLine="true"
+            android:textColor="#666666"
+            android:textSize="@dimen/dp14"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="这个是右边" />
+
+        <ImageView
+            android:id="@+id/imgBaseFunction"
+            android:layout_width="@dimen/dp40"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dp13"
+            android:scaleType="fitXY"
+            app:layout_constraintRight_toRightOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#777777"
+        app:layout_constraintTop_toBottomOf="@+id/layoutBaseActionBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,8 +63,8 @@ dependencies {
     implementation dependencies.hawk
     implementation dependencies.arouter
     annotationProcessor dependencies.aroutercompiler
-    compileOnly dependencies.lombok
-    annotationProcessor dependencies.lombok
+//    compileOnly dependencies.lombok
+//    annotationProcessor dependencies.lombok
     implementation dependencies.baserecyclerviewadapterhelper
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'

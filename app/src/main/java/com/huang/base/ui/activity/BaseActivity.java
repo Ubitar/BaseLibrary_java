@@ -15,7 +15,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.huang.base.ui.delegate.BaseDelegate;
 import com.huang.lib.R;
 import com.huang.lib.ui.dialog.LoadingDialog;
-import com.huang.lib.util.ActivityManager;
+import com.huang.lib.util.ActivityRecorder;
 import com.huang.lib.util.SoftInputUtil;
 import com.huang.lib.util.T;
 import com.noober.background.BackgroundLibrary;
@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -42,7 +43,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     protected ImmersionBar immersionBar;
     protected Unbinder unbinder;
-    protected ActivityManager manager = ActivityManager.getManager();
+    protected ActivityRecorder manager = ActivityRecorder.getManager();
 
     protected LoadingDialog loadingDialog;
 
@@ -118,6 +119,18 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
         SoftInputUtil.hideSoftKeyboard(this);
         super.finish();
         overridePendingTransition(R.anim.activity_right_in, R.anim.activity_right_out);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewDelegate.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        viewDelegate.onPause();
+        super.onPause();
     }
 
     @Override
@@ -208,11 +221,11 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     public void showLoading(String message, boolean cancelable, DialogInterface.
             OnCancelListener cancelListener) {
-        new LoadingDialog.Builder()
+        loadingDialog = new LoadingDialog.Builder()
                 .setCancelable(cancelable)
                 .setText(message)
-                .build()
-                .show(getSupportFragmentManager(), LoadingDialog.TAG);
+                .build();
+        loadingDialog.show(getSupportFragmentManager(), LoadingDialog.TAG);
     }
 
     public void hideLoading() {

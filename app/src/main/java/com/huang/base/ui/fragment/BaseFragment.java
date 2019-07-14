@@ -3,6 +3,7 @@ package com.huang.base.ui.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -86,12 +88,23 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        viewDelegate.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        viewDelegate.onPause();
+        super.onPause();
+    }
+
+    @Override
     public void onDestroyView() {
         viewDelegate.onDestoryWidget();
         if (unbinder != null) unbinder.unbind();
         unbinder = null;
         initFragmentStatus();
-        Log.e("xxx", "onUnBind");
         super.onDestroyView();
     }
 
@@ -99,6 +112,14 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
     public void onDestroy() {
         this.viewDelegate = null;
         super.onDestroy();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return false;
     }
 
     protected <D extends ViewDataBinding> D createMainViewBinding(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

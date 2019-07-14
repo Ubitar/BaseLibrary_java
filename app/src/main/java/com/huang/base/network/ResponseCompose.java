@@ -43,8 +43,6 @@ public class ResponseCompose {
             int code = tResponse.getCode();
             String message = tResponse.getMsg();
             if (code == DefaultNetExceptionParser.SUCCESS) {
-                if (tResponse.getData() == null)
-                    tResponse.setData((T) new Object());
                 return Observable.just(tResponse.getData());
             } else {
                 return Observable.error(new ApiException(code, message));

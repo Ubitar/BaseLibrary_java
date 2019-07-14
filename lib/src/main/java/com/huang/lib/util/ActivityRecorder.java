@@ -1,8 +1,10 @@
 package com.huang.lib.util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
@@ -15,18 +17,18 @@ import static android.content.Context.ACTIVITY_SERVICE;
  * Created by chenweiqi on 2017/7/25.
  */
 
-public class ActivityManager {
-    private ActivityManager() {
+public class ActivityRecorder {
+    private ActivityRecorder() {
     }
 
-    private static ActivityManager sManager;
+    private static ActivityRecorder sManager;
     private Stack<WeakReference<Activity>> mActivityStack;
 
-    public static ActivityManager getManager() {
+    public static ActivityRecorder getManager() {
         if (sManager == null) {
-            synchronized (ActivityManager.class) {
+            synchronized (ActivityRecorder.class) {
                 if (sManager == null) {
-                    sManager = new ActivityManager();
+                    sManager = new ActivityRecorder();
                 }
             }
         }
@@ -161,6 +163,26 @@ public class ActivityManager {
     }
 
     /**
+     * 判断某个activity是否在前台显示
+     */
+    public static boolean isForeground(Activity activity) {
+        return isForeground(activity, activity.getClass().getName());
+    }
+
+    private static boolean isForeground(Activity context, String className) {
+        if (context == null || TextUtils.isEmpty(className))
+            return false;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
+        if (list != null && list.size() > 0) {
+            ComponentName cpn = list.get(0).topActivity;
+            if (className.equals(cpn.getClassName()))
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * 退出应用程序
      */
     public void exitApp() {
@@ -195,6 +217,7 @@ public class ActivityManager {
 
     /**
      * 判断Activity是否在运行
+     *
      * @param c
      * @return
      */

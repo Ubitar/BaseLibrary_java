@@ -1,9 +1,10 @@
 package com.huang.lib.network;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.DialogInterface;
 
 import com.huang.lib.ui.dialog.LoadingDialog;
+import com.huang.lib.util.ActivityRecorder;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,7 +18,7 @@ public abstract class DefaultNetObserver<T> implements Observer<T> {
 
     protected LoadingDialog loadingDialog;
     protected FragmentManager fragmentManager;
-    protected Context context;
+    protected Activity activity;
     protected Disposable disposable;
 
     public DefaultNetObserver(){
@@ -33,8 +34,8 @@ public abstract class DefaultNetObserver<T> implements Observer<T> {
     }
 
     public DefaultNetObserver(AppCompatActivity activity, String message, boolean cancelable) {
-        this.context = activity;
-        if (context != null) {
+        this.activity = activity;
+        if (this.activity != null) {
             this.fragmentManager = activity.getSupportFragmentManager();
             loadingDialog = new LoadingDialog.Builder().setCancelable(cancelable).setText(message)
                     .setOnDismissListener(new NetworkLoadingDismissListener()).build();
@@ -50,10 +51,11 @@ public abstract class DefaultNetObserver<T> implements Observer<T> {
     }
 
     public DefaultNetObserver(Fragment fragment, String message, boolean cancelable) {
-        this.context = fragment.getContext();
+        this.activity = fragment.getActivity();
         if (fragment != null) {
             this.fragmentManager = fragment.getChildFragmentManager();
-            loadingDialog = new LoadingDialog.Builder().setCancelable(cancelable).setText(message)
+            if (ActivityRecorder.isForeground(this.activity))
+                loadingDialog = new LoadingDialog.Builder().setCancelable(cancelable).setText(message)
                     .setOnDismissListener(new NetworkLoadingDismissListener()).build();
         }
     }
@@ -66,7 +68,6 @@ public abstract class DefaultNetObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(T e) {
-        System.out.println(e);
     }
 
     @Override
@@ -74,14 +75,14 @@ public abstract class DefaultNetObserver<T> implements Observer<T> {
         if (throwable instanceof ApiException) {
             com.huang.lib.util.T.show(((ApiException) throwable).getDisplayMessage());
         }
-        if (loadingDialog != null) loadingDialog.dismiss();
+        if (loadingDialog != null) loadingDialog.dismissAllowingStateLoss();
     }
 
     @Override
     public void onComplete() {
-        if (loadingDialog != null) loadingDialog.dismiss();
+        if (loadingDialog != null) loadingDialog.dismissAllowingStateLoss();
         this.fragmentManager = null;
-        this.context = null;
+        this.activity = null;
         this.loadingDialog = null;
     }
 

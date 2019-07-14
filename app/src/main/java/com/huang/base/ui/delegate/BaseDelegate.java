@@ -67,6 +67,14 @@ public abstract class BaseDelegate extends AppDelegate {
             txtBaseTitle.setText(getActivity().getTitle());
     }
 
+    public void onPause(){
+
+    }
+
+    public void onResume(){
+
+    }
+
     @Override
     public void onDestoryWidget() {
         if (unbinder != null) unbinder.unbind();

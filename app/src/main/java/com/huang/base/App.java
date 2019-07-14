@@ -12,7 +12,7 @@ import com.orhanobut.hawk.Hawk;
 import com.qw.soul.permission.SoulPermission;
 
 public class App extends Application {
-    private App app;
+    private static App app;
 
     @Override
     public void onCreate() {
@@ -42,7 +42,7 @@ public class App extends Application {
         Glide.get(this).onLowMemory();
     }
 
-    public App getInstance() {
+    public static App getInstance() {
         return app;
     }
 }

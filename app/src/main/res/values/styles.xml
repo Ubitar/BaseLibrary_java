@@ -4,6 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
 
     <style name="WelcomeTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/shape_welcome</item>
+        <item name="android:windowIsTranslucent">false</item>
     </style>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.huang.lib.ui.dialog;
+package com.common.ui.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.huang.lib.R;
-import com.huang.lib.R2;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.common.R;
+import com.common.R2;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

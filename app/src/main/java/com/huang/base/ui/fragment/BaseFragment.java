@@ -10,9 +10,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.common.ui.dialog.LoadingDialog;
 import com.huang.base.ui.delegate.BaseDelegate;
-import com.huang.lib.ui.dialog.LoadingDialog;
-import com.huang.lib.util.L;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

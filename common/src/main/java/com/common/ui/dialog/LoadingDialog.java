@@ -1,4 +1,4 @@
-package com.huang.lib.ui.dialog;
+package com.common.ui.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -10,21 +10,22 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.huang.lib.R;
-import com.huang.lib.R2;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.common.R;
+import com.common.R2;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class LoadingDialog extends DialogFragment {
 
-    public static final String CANCELABLE = "CANCELABLE";
-    public static final String DIM_AMOUNT = "DIM_AMOUNT";
-    public static final String TEXT = "TEXT";
+    private static final String CANCELABLE = "CANCELABLE";
+    private static final String DIM_AMOUNT = "DIM_AMOUNT";
+    private static final String TEXT = "TEXT";
 
     public static final String TAG = "LOADING_DIALOG";
 
@@ -58,7 +59,6 @@ public class LoadingDialog extends DialogFragment {
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
-
 
     @Override
     public void onResume() {

@@ -1,14 +1,16 @@
-package com.huang.lib.network;
+package com.common.network;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 
-import com.huang.lib.ui.dialog.LoadingDialog;
+import com.common.ui.dialog.LoadingDialog;
+import com.huang.lib.network.ApiException;
 import com.huang.lib.util.ActivityRecorder;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 

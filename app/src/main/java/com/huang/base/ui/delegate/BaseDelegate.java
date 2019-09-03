@@ -8,11 +8,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.huang.base.R;
 import com.huang.base.R2;
-import com.huang.lib.util.ScreenUtil;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -67,18 +68,18 @@ public abstract class BaseDelegate extends AppDelegate {
             txtBaseTitle.setText(getActivity().getTitle());
     }
 
-    public void onPause(){
+    public void onPause() {
 
     }
 
-    public void onResume(){
+    public void onResume() {
 
     }
 
     @Override
     public void onDestoryWidget() {
         if (unbinder != null) unbinder.unbind();
-        unbinder=null;
+        unbinder = null;
     }
 
     @OnClick({R2.id.imgBaseBack, R2.id.txtBaseBack})
@@ -172,7 +173,7 @@ public abstract class BaseDelegate extends AppDelegate {
     }
 
     private void initStatusBar() {
-        int statusHeight = ScreenUtil.getStatusHeight(getActivity());
+        int statusHeight = BarUtils.getStatusBarHeight();
         layoutStatusBar.getLayoutParams().height = statusHeight;
     }
 }

@@ -3,6 +3,7 @@ package com.huang.base.ui.activity;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.common.ui.dialog.AlertConfirmDialog;
 import com.huang.base.R;
 import com.huang.base.bean.BaseResponse;
 import com.huang.base.bean.UserBean;
@@ -12,9 +13,8 @@ import com.huang.base.network.ResponseCompose;
 import com.huang.base.ui.adapter.FragmentViewPagerAdapter;
 import com.huang.base.ui.delegate.MainDelegate;
 import com.huang.base.ui.fragment.MainFragment;
-import com.huang.lib.network.DefaultNetObserver;
+import com.common.network.DefaultNetObserver;
 import com.huang.lib.network.SchedulerCompose;
-import com.huang.lib.ui.dialog.AlertConfirmDialog;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 

@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.common.ui.dialog.LoadingDialog;
 import com.gyf.barlibrary.ImmersionBar;
 import com.huang.base.ui.delegate.BaseDelegate;
 import com.huang.lib.R;
-import com.huang.lib.ui.dialog.LoadingDialog;
 import com.huang.lib.util.ActivityRecorder;
 import com.huang.lib.util.SoftInputUtil;
 import com.huang.lib.util.T;
@@ -46,7 +46,6 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     protected ActivityRecorder manager = ActivityRecorder.getManager();
 
     protected LoadingDialog loadingDialog;
-
 
     public BaseActivity() {
         try {
@@ -109,16 +108,10 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     }
 
     @Override
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-        overridePendingTransition(R.anim.activity_right_in, R.anim.activity_right_out);
-    }
-
-    @Override
     public void finish() {
         SoftInputUtil.hideSoftKeyboard(this);
         super.finish();
-        overridePendingTransition(R.anim.activity_right_in, R.anim.activity_right_out);
+        overridePendingTransition(com.resource.R.anim.anim_no, com.resource.R.anim.anim_to_right_close);
     }
 
     @Override
@@ -220,10 +213,11 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     }
 
     public void showLoading(String message, boolean cancelable, DialogInterface.
-            OnCancelListener cancelListener) {
+            OnDismissListener cancelListener) {
         loadingDialog = new LoadingDialog.Builder()
                 .setCancelable(cancelable)
                 .setText(message)
+                .setOnDismissListener(cancelListener)
                 .build();
         loadingDialog.show(getSupportFragmentManager(), LoadingDialog.TAG);
     }

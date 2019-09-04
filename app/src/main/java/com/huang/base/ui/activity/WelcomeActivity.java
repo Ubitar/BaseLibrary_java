@@ -36,6 +36,7 @@ public class WelcomeActivity extends BaseActivity<WelcomeDelegate> {
         super.onCreate(savedInstanceState);
         immersionBar.reset()
                 .transparentBar()
+                .fullScreen(true)
                 .init();
         checkPermission();
     }

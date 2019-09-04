@@ -111,7 +111,8 @@ public class LoadingDialog extends DialogFragment {
     }
 
     public void show(FragmentManager manager) {
-        LoadingDialogManager.getInstance().show(this,manager);
+        if (manager.isStateSaved() || manager.isDestroyed()) return;
+        LoadingDialogManager.getInstance().show(this, manager);
     }
 
     public int show(FragmentTransaction transaction) {
@@ -142,15 +143,13 @@ public class LoadingDialog extends DialogFragment {
         }
 
         public void show(LoadingDialog dialog, FragmentManager fragmentManager) {
-            if (fragmentManager.isStateSaved() || fragmentManager.isDestroyed()) return;
             Fragment fragment = fragmentManager.findFragmentByTag(LoadingDialog.TAG);
-            if (fragment == null || fragment instanceof LoadingDialog) {
-                dialog.show(fragmentManager, LoadingDialog.TAG);
+            if (fragment == null) {
+                dialog.showNow(fragmentManager, LoadingDialog.TAG);
             }
         }
 
         public void cancel(FragmentManager fragmentManager) {
-            if (fragmentManager.isStateSaved() || fragmentManager.isDestroyed()) return;
             Fragment fragment = fragmentManager.findFragmentByTag(LoadingDialog.TAG);
             if (fragment != null && fragment instanceof LoadingDialog) {
                 ((LoadingDialog) fragment).dismissAllowingStateLoss();

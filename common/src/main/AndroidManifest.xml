@@ -4,6 +4,6 @@
     <application>
         <provider
             android:name=".provider.AppProvider"
-            android:authorities="com.common" />
+            android:authorities="com.common.base" />
     </application>
 </manifest>

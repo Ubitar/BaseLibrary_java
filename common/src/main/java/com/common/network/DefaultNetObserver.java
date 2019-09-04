@@ -65,7 +65,7 @@ public abstract class DefaultNetObserver<T> implements Observer<T> {
     @Override
     public void onSubscribe(Disposable d) {
         disposable = d;
-        if (loadingDialog != null) loadingDialog.show(fragmentManager, LoadingDialog.TAG);
+        if (loadingDialog != null) loadingDialog.show(fragmentManager);
     }
 
     @Override

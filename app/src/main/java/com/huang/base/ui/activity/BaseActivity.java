@@ -128,7 +128,6 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     @Override
     protected void onDestroy() {
-        hideLoading();
         viewDelegate.onDestoryWidget();
         unbinder.unbind();
         unbinder = null;
@@ -219,7 +218,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
                 .setText(message)
                 .setOnDismissListener(cancelListener)
                 .build();
-        loadingDialog.show(getSupportFragmentManager(), LoadingDialog.TAG);
+        loadingDialog.show(getSupportFragmentManager());
     }
 
     public void hideLoading() {

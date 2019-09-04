@@ -41,6 +41,11 @@ public class MainActivity extends BaseActivity<MainDelegate> {
         super.onCreate(savedInstanceState);
         viewDelegate.setText("点击发起网络请求1");
         initViewPager();
+
+        showLoading();
+        showLoading();
+        showLoading();
+        showLoading();
     }
 
     @OnClick(R.id.txt)

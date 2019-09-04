@@ -3,6 +3,6 @@
     <application>
         <provider
             android:name=".provider.AppProvider"
-            android:authorities="com.lib" />
+            android:authorities="com.library" />
     </application>
 </manifest>

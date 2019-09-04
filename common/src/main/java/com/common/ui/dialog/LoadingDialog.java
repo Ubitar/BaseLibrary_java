@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.common.R;
 import com.common.R2;
@@ -107,8 +110,53 @@ public class LoadingDialog extends DialogFragment {
         super.onDestroyView();
     }
 
+    public void show(FragmentManager manager) {
+        LoadingDialogManager.getInstance().show(this,manager);
+    }
+
+    public int show(FragmentTransaction transaction) {
+        return super.show(transaction, TAG);
+    }
+
     public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
+    }
+
+    public static class LoadingDialogManager {
+
+        private static LoadingDialogManager manager;
+
+        public static LoadingDialogManager getInstance() {
+            if (manager == null) {
+                synchronized (LoadingDialogManager.class) {
+                    if (manager == null) {
+                        manager = new LoadingDialogManager();
+                    }
+                }
+            }
+            return manager;
+        }
+
+        private LoadingDialogManager() {
+
+        }
+
+        public void show(LoadingDialog dialog, FragmentManager fragmentManager) {
+            if (fragmentManager.isStateSaved() || fragmentManager.isDestroyed()) return;
+            Fragment fragment = fragmentManager.findFragmentByTag(LoadingDialog.TAG);
+            if (fragment == null || fragment instanceof LoadingDialog) {
+                dialog.show(fragmentManager, LoadingDialog.TAG);
+            }
+        }
+
+        public void cancel(FragmentManager fragmentManager) {
+            if (fragmentManager.isStateSaved() || fragmentManager.isDestroyed()) return;
+            Fragment fragment = fragmentManager.findFragmentByTag(LoadingDialog.TAG);
+            if (fragment != null && fragment instanceof LoadingDialog) {
+                ((LoadingDialog) fragment).dismissAllowingStateLoss();
+            }
+        }
+
     }
 
     public static class Builder {

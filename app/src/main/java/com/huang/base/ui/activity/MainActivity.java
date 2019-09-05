@@ -3,6 +3,7 @@ package com.huang.base.ui.activity;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.common.common.IntentRouter;
 import com.common.ui.dialog.AlertConfirmDialog;
 import com.huang.base.R;
 import com.huang.base.bean.BaseResponse;
@@ -26,7 +27,7 @@ import butterknife.OnClick;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
-@Route(path = "/app/main")
+@Route(path = IntentRouter.MAIN_ACITIVTY)
 public class MainActivity extends BaseActivity<MainDelegate> {
 
     private FragmentViewPagerAdapter adapter;
@@ -41,11 +42,6 @@ public class MainActivity extends BaseActivity<MainDelegate> {
         super.onCreate(savedInstanceState);
         viewDelegate.setText("点击发起网络请求1");
         initViewPager();
-
-        showLoading();
-        showLoading();
-        showLoading();
-        showLoading();
     }
 
     @OnClick(R.id.txt)
@@ -62,7 +58,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
                 .compose(SchedulerCompose.io2main())
                 .compose(ResponseCompose.parseResult())
                 .as(AutoDispose.<Object>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-                .subscribe(new DefaultNetObserver<Object>(this) {
+                .subscribe(new DefaultNetObserver<Object>() {
                     @Override
                     public void onNext(Object e) {
                         super.onNext(e);

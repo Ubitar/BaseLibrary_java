@@ -14,8 +14,7 @@ import android.widget.EditText;
 import com.common.ui.dialog.LoadingDialog;
 import com.gyf.barlibrary.ImmersionBar;
 import com.huang.base.ui.delegate.BaseDelegate;
-import com.huang.lib.R;
-import com.huang.lib.util.ActivityRecorder;
+import com.huang.lib.util.ActivityManager;
 import com.huang.lib.util.SoftInputUtil;
 import com.huang.lib.util.T;
 import com.noober.background.BackgroundLibrary;
@@ -43,7 +42,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     protected ImmersionBar immersionBar;
     protected Unbinder unbinder;
-    protected ActivityRecorder manager = ActivityRecorder.getManager();
+    protected ActivityManager manager = ActivityManager.getManager();
 
     protected LoadingDialog loadingDialog;
 

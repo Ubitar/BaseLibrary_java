@@ -23,8 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
+
 import butterknife.OnClick;
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 @Route(path = IntentRouter.MAIN_ACITIVTY)

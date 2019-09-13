@@ -15,11 +15,11 @@ public class DefaultNetExceptionParser {
     public static final int SUCCESS = 200;
     public static final int PARSE_ERROR = 1001;
     public static final int NETWORK_ERROR = 1002;
+    public static final int RESUTL_EMPTY = 1003;
 
     public static ApiException parse(Throwable e) {
         ApiException ex;
-        if (e instanceof JSONException
-                || e instanceof ParseException) {
+        if (e instanceof JSONException || e instanceof ParseException) {
             //解析错误
             ex = new ApiException(PARSE_ERROR, e.getMessage(), "数据解析错误");
             return ex;

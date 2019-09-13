@@ -148,14 +148,6 @@ public class LoadingDialog extends DialogFragment {
                 dialog.showNow(fragmentManager, LoadingDialog.TAG);
             }
         }
-
-        public void cancel(FragmentManager fragmentManager) {
-            Fragment fragment = fragmentManager.findFragmentByTag(LoadingDialog.TAG);
-            if (fragment != null && fragment instanceof LoadingDialog) {
-                ((LoadingDialog) fragment).dismissAllowingStateLoss();
-            }
-        }
-
     }
 
     public static class Builder {

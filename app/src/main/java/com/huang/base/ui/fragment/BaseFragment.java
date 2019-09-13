@@ -48,7 +48,6 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
         if (viewDelegate.getRootView() == null) {
             createMainViewBinding(inflater, container, savedInstanceState);
             View view = viewDelegate.onCreateView();
-            Log.e("xxx", "onBind   1");
             unbinder = ButterKnife.bind(this, view);
             if (isFirstVisible) viewDelegate.initWidget();
             if (getUserVisibleHint()) {

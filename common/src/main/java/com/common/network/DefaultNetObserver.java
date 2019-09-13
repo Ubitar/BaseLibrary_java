@@ -5,10 +5,8 @@ import android.content.DialogInterface;
 
 import com.common.ui.dialog.LoadingDialog;
 import com.huang.lib.network.ApiException;
-import com.huang.lib.util.ActivityRecorder;
+import com.huang.lib.util.ActivityManager;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -36,7 +34,7 @@ public abstract class DefaultNetObserver<T> implements Observer<T> {
     }
 
     public DefaultNetObserver(boolean showLoading, String message, boolean cancelable) {
-        Activity activity = ActivityRecorder.getManager().currentActivity();
+        Activity activity = ActivityManager.getManager().currentActivity();
         if (activity != null) {
             if (activity instanceof FragmentActivity) {
                 this.fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();

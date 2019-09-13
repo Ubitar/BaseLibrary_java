@@ -1,7 +1,6 @@
 package com.huang.lib.util;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.text.TextUtils;
@@ -17,18 +16,18 @@ import static android.content.Context.ACTIVITY_SERVICE;
  * Created by chenweiqi on 2017/7/25.
  */
 
-public class ActivityRecorder {
-    private ActivityRecorder() {
+public class ActivityManager {
+    private ActivityManager() {
     }
 
-    private static ActivityRecorder sManager;
+    private static ActivityManager sManager;
     private Stack<WeakReference<Activity>> mActivityStack;
 
-    public static ActivityRecorder getManager() {
+    public static ActivityManager getManager() {
         if (sManager == null) {
-            synchronized (ActivityRecorder.class) {
+            synchronized (ActivityManager.class) {
                 if (sManager == null) {
-                    sManager = new ActivityRecorder();
+                    sManager = new ActivityManager();
                 }
             }
         }
@@ -172,8 +171,8 @@ public class ActivityRecorder {
     private static boolean isForeground(Activity context, String className) {
         if (context == null || TextUtils.isEmpty(className))
             return false;
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
+        android.app.ActivityManager am = (android.app.ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<android.app.ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
         if (list != null && list.size() > 0) {
             ComponentName cpn = list.get(0).topActivity;
             if (className.equals(cpn.getClassName()))

@@ -1,20 +1,18 @@
 package com.huang.base.ui.adapter;
 
-import android.view.View;
-
-import java.util.List;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import java.util.List;
 
 /**
  * Created by chenweiqi on 2017/6/1.
  */
 
 public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
-    List<Fragment> fragments;
-    List<String> titles;
+  private  List<Fragment> fragments;
+    private List<String> titles;
 
     public FragmentViewPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -60,8 +58,4 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
         return 0;
     }
 
-    @Override
-    public void finishUpdate(View container) {
-        super.finishUpdate(container);
-    }
 }

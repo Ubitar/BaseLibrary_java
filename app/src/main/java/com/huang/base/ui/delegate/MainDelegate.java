@@ -2,12 +2,13 @@ package com.huang.base.ui.delegate;
 
 import android.widget.TextView;
 
+import com.common.ui.delegate.BaseDelegate;
 import com.huang.base.R;
-import com.huang.base.ui.adapter.FragmentViewPagerAdapter;
+import com.common.ui.adapter.FragmentViewPagerAdapter;
+import com.common.ui.adapter.DefActionBarAdapter;
 
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainDelegate extends BaseDelegate {
     @BindView(R.id.txt)
@@ -23,17 +24,13 @@ public class MainDelegate extends BaseDelegate {
     @Override
     public void initWidget() {
         super.initWidget();
-        showStatusBar();
-        showActionBar();
     }
 
     public void setText(String text) {
         txt.setText(text);
     }
 
-    public void initViewPager(
-            FragmentViewPagerAdapter adapter
-    ) {
+    public void initViewPager(FragmentViewPagerAdapter adapter) {
         viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(adapter);
     }

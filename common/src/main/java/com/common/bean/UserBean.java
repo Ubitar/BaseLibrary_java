@@ -1,4 +1,4 @@
-package com.huang.base.bean;
+package com.common.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,7 +1,7 @@
 package com.huang.base.network;
 
 import com.huang.base.bean.BaseResponse;
-import com.huang.base.bean.UserBean;
+import com.common.bean.UserBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;

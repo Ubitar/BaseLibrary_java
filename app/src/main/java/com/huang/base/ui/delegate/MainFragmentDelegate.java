@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.common.ui.delegate.BaseDelegate;
 import com.huang.base.R;
 
 import butterknife.BindView;

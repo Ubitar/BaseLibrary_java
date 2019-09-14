@@ -2,6 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
+    dataBinding {
+        enabled = true
+    }
     def versions = rootProject.ext.versions
     compileSdkVersion rootProject.ext.versions.compileSdkVersion
     defaultConfig {
@@ -50,4 +53,9 @@ dependencies {
     testImplementation dependencies.junit
     androidTestImplementation dependencies.test_runner
     androidTestImplementation dependencies.test_espresso_core
+    implementation dependencies.blankj_utilcode
+    implementation dependencies.barlibrary
+    implementation dependencies.backgroundlibrary
+    implementation dependencies.hawk
+
 }

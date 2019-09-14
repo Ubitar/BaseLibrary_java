@@ -6,11 +6,10 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.common.common.IntentRouter;
+import com.common.ui.activity.BaseActivity;
 import com.common.ui.dialog.AlertConfirmDialog;
-import com.huang.base.R;
-import com.huang.base.bean.UserBean;
+import com.common.bean.UserBean;
 import com.huang.base.ui.delegate.WelcomeDelegate;
 import com.huang.lib.helper.IntentHelper;
 import com.qw.soul.permission.SoulPermission;
@@ -36,7 +35,6 @@ public class WelcomeActivity extends BaseActivity<WelcomeDelegate> {
         super.onCreate(savedInstanceState);
         immersionBar.reset()
                 .transparentBar()
-                .fullScreen(true)
                 .init();
         checkPermission();
     }
@@ -60,9 +58,8 @@ public class WelcomeActivity extends BaseActivity<WelcomeDelegate> {
                                     public void accept(Long aLong) throws Exception {
                                         UserBean testBean = new UserBean();
                                         testBean.setName("123321");
-                                        ARouter.getInstance().build(IntentRouter.MAIN_ACITIVTY)
-                                                .withTransition(R.anim.anim_to_left_open, R.anim.anim_no)
-                                                .navigation(getActivity());
+                                        IntentRouter.build(IntentRouter.MAIN_ACITIVTY)
+                                                .navigation();
                                         finish();
                                     }
                                 });

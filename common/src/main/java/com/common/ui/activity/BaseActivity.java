@@ -1,4 +1,4 @@
-package com.huang.base.ui.activity;
+package com.common.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -11,20 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+
+import com.common.ui.adapter.BaseActionBarAdapter;
+import com.common.ui.delegate.BaseDelegate;
 import com.common.ui.dialog.LoadingDialog;
 import com.gyf.barlibrary.ImmersionBar;
-import com.huang.base.ui.delegate.BaseDelegate;
 import com.huang.lib.util.ActivityManager;
 import com.huang.lib.util.SoftInputUtil;
 import com.huang.lib.util.T;
 import com.noober.background.BackgroundLibrary;
 
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,6 +44,8 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     protected ImmersionBar immersionBar;
     protected Unbinder unbinder;
     protected ActivityManager manager = ActivityManager.getManager();
+
+    protected BaseActionBarAdapter actionBarAdapter;
 
     protected LoadingDialog loadingDialog;
 
@@ -63,13 +66,16 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
         createMainBinding(getLayoutInflater(), null, savedInstanceState);
 
-        View rootView = viewDelegate.onCreateView();
+        ViewGroup rootView = viewDelegate.onCreateView();
         setContentView(rootView);
+
         unbinder = ButterKnife.bind(this);
 
         immersionBar = ImmersionBar.with(this);
         immersionBar.statusBarDarkFont(true)
                 .navigationBarColor(android.R.color.white).init();
+
+        initActionBarAdapter(rootView);
 
         viewDelegate.initWidget();
 
@@ -127,7 +133,8 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     @Override
     protected void onDestroy() {
-        viewDelegate.onDestoryWidget();
+        if (actionBarAdapter != null) actionBarAdapter.release();
+        viewDelegate.onDestroyWidget();
         unbinder.unbind();
         unbinder = null;
         viewDelegate = null;
@@ -146,6 +153,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
         }
         return super.dispatchTouchEvent(ev);
     }
+
 
     private boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
@@ -170,6 +178,18 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     protected <D extends ViewDataBinding> D
     createMainBinding(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return this.viewDelegate.createMainView(inflater, container, savedInstanceState);
+    }
+
+    private void initActionBarAdapter(ViewGroup viewGroup) {
+        Class<BaseActionBarAdapter> adapterClass = getActionBarAdapter();
+        if (adapterClass != null) {
+            try {
+                actionBarAdapter = adapterClass.newInstance();
+                actionBarAdapter.injectView(viewGroup);
+            } catch (IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -228,6 +248,14 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
         return this;
     }
 
+    /**
+     * 设置头部适配器
+     */
+    protected Class getActionBarAdapter() {
+        return null;
+    }
+
     protected abstract Class<S> getDelegateClass();
+
 
 }

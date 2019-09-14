@@ -1,8 +1,7 @@
-package com.huang.base.ui.fragment;
+package com.common.ui.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,8 +9,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.common.ui.adapter.BaseActionBarAdapter;
 import com.common.ui.dialog.LoadingDialog;
-import com.huang.base.ui.delegate.BaseDelegate;
+import com.common.ui.delegate.BaseDelegate;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,11 +30,13 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
 
     protected boolean isFragmentVisible;
     protected boolean isFirstVisible = true;
-    protected boolean postRefresh;
+    protected int postRefresh = Integer.MAX_VALUE;
 
     protected S viewDelegate;
 
     protected Unbinder unbinder;
+
+    protected BaseActionBarAdapter actionBarAdapter;
 
     protected LoadingDialog loadingDialog;
 
@@ -47,9 +50,12 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (viewDelegate.getRootView() == null) {
             createMainViewBinding(inflater, container, savedInstanceState);
-            View view = viewDelegate.onCreateView();
+            ViewGroup view = viewDelegate.onCreateView();
             unbinder = ButterKnife.bind(this, view);
-            if (isFirstVisible) viewDelegate.initWidget();
+            if (isFirstVisible) {
+                initActionBarAdapter(view);
+                viewDelegate.initWidget();
+            }
             if (getUserVisibleHint()) {
                 if (isFirstVisible) {
                     onFragmentFirstVisible();
@@ -99,7 +105,8 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
 
     @Override
     public void onDestroyView() {
-        viewDelegate.onDestoryWidget();
+        if (actionBarAdapter != null) actionBarAdapter.release();
+        viewDelegate.onDestroyWidget();
         if (unbinder != null) unbinder.unbind();
         unbinder = null;
         initFragmentStatus();
@@ -139,10 +146,20 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
     private void createViewDelegate() {
         try {
             viewDelegate = getDelegateClass().newInstance();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | java.lang.InstantiationException e) {
             e.printStackTrace();
-        } catch (java.lang.InstantiationException e) {
-            e.printStackTrace();
+        }
+    }
+
+    private void initActionBarAdapter(ViewGroup viewGroup) {
+        Class<BaseActionBarAdapter> adapterClass = getActionBarAdapter();
+        if (adapterClass != null) {
+            try {
+                actionBarAdapter = adapterClass.newInstance();
+                actionBarAdapter.injectView(viewGroup);
+            } catch (IllegalAccessException | java.lang.InstantiationException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -173,7 +190,6 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
         if (loadingDialog != null) loadingDialog.dismiss();
     }
 
-
     /**
      * 去除setUserVisibleHint()多余的回调场景，保证只有当fragment可见状态发生变化时才回调
      * 回调时机在view创建完后，所以支持ui操作，解决在setUserVisibleHint()里进行ui操作有可能报null异常的问题
@@ -198,12 +214,25 @@ public abstract class BaseFragment<S extends BaseDelegate> extends Fragment {
         //todo 继承使用
     }
 
-    public void postRefresh() {
-        if (!isFirstVisible) postRefresh = true;
+    /**
+     * 在fragment有空(出现在用于面前)的时候再刷新
+     */
+    public void postRefresh(int type) {
+        if (isFirstVisible) refresh(type);
+        else postRefresh = type;
     }
 
-    public void refresh() {
-        postRefresh = false;
+    /**
+     * 立即刷新 ，推荐使用PostRefresh
+     */
+    public void refresh(int type) {
+    }
+
+    /**
+     * 设置头部适配器
+     */
+    protected Class getActionBarAdapter() {
+        return null;
     }
 
     protected abstract Class<S> getDelegateClass();

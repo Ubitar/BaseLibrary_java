@@ -1,9 +1,8 @@
 package com.huang.base.network;
 
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.huang.base.common.Constant;
+import com.common.saver.UserInfoSaver;
 
 import java.io.IOException;
 
@@ -19,7 +18,7 @@ public class TokenInterceptor implements Interceptor {
         String url = request.url().toString();
         // 如果是其他 url 就设置 请求 token
         if (!TextUtils.isEmpty(url)) {
-            String token = Constant.getToken();
+            String token = UserInfoSaver.getToken();
             if (!TextUtils.isEmpty(token)) builder.addHeader("token", token);
         }
         return chain.proceed(builder.build());

@@ -2,13 +2,18 @@ package com.huang.base.ui.fragment;
 
 import android.os.Bundle;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.common.ui.adapter.DefActionBarAdapter;
+import com.common.ui.fragment.BaseFragment;
 import com.huang.base.R;
 import com.huang.base.ui.delegate.MainFragmentDelegate;
 
 import butterknife.OnClick;
 
 public class MainFragment extends BaseFragment<MainFragmentDelegate> {
-    private int index;
+    @Autowired(name = "index")
+    int index;
 
     @Override
     protected Class getDelegateClass() {
@@ -18,7 +23,7 @@ public class MainFragment extends BaseFragment<MainFragmentDelegate> {
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
-        index = getArguments().getInt("index", 0);
+        ARouter.getInstance().inject(this);
         viewDelegate.setText("fragment" + (index + 1));
         viewDelegate.setBackgroundColor(index);
     }

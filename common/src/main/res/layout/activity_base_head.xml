@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,25 +10,22 @@
         android:id="@+id/layoutBaseStatusBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
+        android:background="@android:color/white" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutBaseActionBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
-        android:background="@android:color/white"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/layoutBaseStatusBar"
-        tools:visibility="visible">
+        android:layout_below="@+id/layoutBaseStatusBar"
+        android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/imgBaseBack"
             android:layout_width="@dimen/dp40"
             android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:clickable="true"
+            android:foreground="?android:selectableItemBackground"
             android:padding="@dimen/dp13"
             android:scaleType="fitXY"
             android:src="@mipmap/ic_base_back_black"
@@ -38,7 +35,10 @@
             android:id="@+id/txtBaseBack"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:clickable="true"
             android:ellipsize="end"
+            android:foreground="?android:selectableItemBackground"
             android:gravity="center"
             android:maxWidth="@dimen/dp200"
             android:minWidth="@dimen/dp40"
@@ -76,7 +76,9 @@
             android:id="@+id/txtBaseFunction"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:clickable="true"
             android:ellipsize="end"
+            android:foreground="?android:selectableItemBackground"
             android:gravity="center"
             android:maxWidth="@dimen/dp200"
             android:minWidth="@dimen/dp40"
@@ -94,15 +96,18 @@
             android:id="@+id/imgBaseFunction"
             android:layout_width="@dimen/dp40"
             android:layout_height="match_parent"
+            android:clickable="true"
+            android:foreground="?android:selectableItemBackground"
             android:padding="@dimen/dp13"
             android:scaleType="fitXY"
             app:layout_constraintRight_toRightOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#999999"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#777777"
-        app:layout_constraintTop_toBottomOf="@+id/layoutBaseActionBar" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

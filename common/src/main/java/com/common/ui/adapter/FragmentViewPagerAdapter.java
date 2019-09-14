@@ -1,4 +1,4 @@
-package com.huang.base.ui.adapter;
+package com.common.ui.adapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

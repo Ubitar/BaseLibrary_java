@@ -1,4 +1,4 @@
-package com.huang.base.ui.delegate;
+package com.common.ui.delegate;
 
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+
+import com.common.ui.activity.BaseActivity;
 
 /**
  * Created by laohuang on 2018/9/9.
@@ -49,7 +51,7 @@ public abstract class AppDelegate {
 
     }
 
-    public void onDestoryWidget() {
+    public void onDestroyWidget() {
 
     }
 
@@ -67,7 +69,7 @@ public abstract class AppDelegate {
         return this.bindView(id);
     }
 
-    public <S extends AppCompatActivity> S getActivity() {
+    public <S extends BaseActivity> S getActivity() {
         return (S) this.mainView.getContext();
     }
 

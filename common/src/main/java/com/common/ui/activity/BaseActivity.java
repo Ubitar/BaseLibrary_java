@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
@@ -38,7 +39,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     protected S viewDelegate;
 
     protected boolean isDoubleBack;
-    protected boolean autoHideKeyBoard;
+    protected boolean autoHideKeyBoard=true;
     protected long curMillsTime;
 
     protected ImmersionBar immersionBar;
@@ -73,6 +74,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
         immersionBar = ImmersionBar.with(this);
         immersionBar.statusBarDarkFont(true)
+                .keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE )
                 .navigationBarColor(android.R.color.white).init();
 
         initActionBarAdapter(rootView);

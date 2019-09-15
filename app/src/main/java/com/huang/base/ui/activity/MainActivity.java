@@ -98,15 +98,6 @@ public class MainActivity extends BaseActivity<MainDelegate> {
         viewDelegate.setCurrentAt(3);
     }
 
-    @OnClick(R.id.txtOption)
-    public void onClickTxtOption() {
-        new AlertConfirmDialog.Builder()
-                .setTitle("标题")
-                .setContent("内容")
-                .build()
-                .showNow(getSupportFragmentManager(), AlertConfirmDialog.TAG);
-    }
-
     private void initViewPager() {
         adapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
         List<Fragment> fragments = new ArrayList<>(4);

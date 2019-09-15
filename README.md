@@ -9,5 +9,6 @@
 6. AutoDispose
 7. SoulPermission
 8. SingleClick
+9. Java1.8
 
 # 记得自备梯子

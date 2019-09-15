@@ -6,10 +6,10 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.common.bean.UserBean;
 import com.common.common.IntentRouter;
 import com.common.ui.activity.BaseActivity;
 import com.common.ui.dialog.AlertConfirmDialog;
-import com.common.bean.UserBean;
 import com.huang.base.ui.delegate.WelcomeDelegate;
 import com.huang.lib.helper.IntentHelper;
 import com.qw.soul.permission.SoulPermission;

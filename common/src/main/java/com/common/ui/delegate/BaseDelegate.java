@@ -4,6 +4,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.core.widget.NestedScrollView;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 

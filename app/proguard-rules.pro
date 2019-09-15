@@ -102,3 +102,8 @@ rx.internal.util.atomic.LinkedQueueNode consumerNode;
 -dontwarn com.google.**
 -keep class com.google.gson.** {*;}
 -keep class com.google.protobuf.** {*;}
+
+#snake
+-keepattributes *Annotation*
+-keep class **.*_SnakeProxy
+-keep @com.youngfeng.snake.annotations.EnableDragToClose public class *

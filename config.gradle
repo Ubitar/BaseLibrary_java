@@ -41,6 +41,6 @@ ext {
             "blankj_utilcode"              : "com.blankj:utilcode:1.24.0",
             "junit"                        : "junit:junit:4.12",
             "test_runner"                  : "androidx.test:runner:1.2.0",
-            "test_espresso_core"           : "androidx.test.espresso:espresso-core:3.2.0"
+            "test_espresso_core"           : "androidx.test.espresso:espresso-core:3.2.0",
     ]
 }

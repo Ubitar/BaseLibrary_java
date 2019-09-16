@@ -57,5 +57,6 @@ dependencies {
     implementation dependencies.barlibrary
     implementation dependencies.backgroundlibrary
     implementation dependencies.hawk
+    implementation dependencies.fragmentation
 
 }

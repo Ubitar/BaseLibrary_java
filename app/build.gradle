@@ -71,6 +71,8 @@ dependencies {
 //    compileOnly dependencies.lombok
 //    annotationProcessor dependencies.lombok
     implementation dependencies.baserecyclerviewadapterhelper
+    implementation dependencies.fragmentation
+    implementation dependencies.fragmentation_swipeback
     testImplementation dependencies.junit
     androidTestImplementation dependencies.test_runner
     androidTestImplementation dependencies.test_espresso_core

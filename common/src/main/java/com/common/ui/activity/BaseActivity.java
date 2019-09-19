@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
@@ -30,13 +29,12 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * Created by laohuang on 2018/9/9.
  */
 
-public abstract class BaseActivity<S extends BaseDelegate> extends BaseSupportActivity {
+public abstract class BaseActivity<S extends BaseDelegate> extends BaseSwipeBackActivity {
     protected S viewDelegate;
 
     protected boolean isDoubleBack;
@@ -125,12 +123,12 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSupportAc
     @Override
     protected void onResume() {
         super.onResume();
-        viewDelegate.onResume();
+        viewDelegate.onSupportVisible();
     }
 
     @Override
     protected void onPause() {
-        viewDelegate.onPause();
+        viewDelegate.onSupportInvisible();
         super.onPause();
     }
 

@@ -58,5 +58,6 @@ dependencies {
     implementation dependencies.backgroundlibrary
     implementation dependencies.hawk
     implementation dependencies.fragmentation
+    implementation dependencies.fragmentation_swipeback
 
 }

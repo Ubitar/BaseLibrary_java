@@ -30,17 +30,16 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * Created by laohuang on 2018/9/9.
  */
 
-public abstract class BaseActivity<S extends BaseDelegate> extends BaseSupportActivity {
+public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActivity {
     protected S viewDelegate;
 
     protected boolean isDoubleBack;
-    protected boolean autoHideKeyBoard = true;
+    protected boolean autoHideKeyBoard=true;
     protected long curMillsTime;
 
     protected ImmersionBar immersionBar;
@@ -75,7 +74,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSupportAc
 
         immersionBar = ImmersionBar.with(this);
         immersionBar.statusBarDarkFont(true)
-                .keyboardEnable(true, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                .keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE )
                 .navigationBarColor(android.R.color.white).init();
 
         initActionBarAdapter(rootView);
@@ -105,14 +104,14 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSupportAc
     }
 
     @Override
-    public void onBackPressedSupport() {
-        if (isDoubleBack && getSupportFragmentManager().getBackStackEntryCount() <=1) {
-            if (System.currentTimeMillis() - curMillsTime < 1500) super.onBackPressedSupport();
+    public void onBackPressed() {
+        if (isDoubleBack) {
+            if (System.currentTimeMillis() - curMillsTime < 1500) super.onBackPressed();
             else {
                 curMillsTime = System.currentTimeMillis();
                 T.showShort("再点击一次退出");
             }
-        } else super.onBackPressedSupport();
+        } else super.onBackPressed();
     }
 
     @Override

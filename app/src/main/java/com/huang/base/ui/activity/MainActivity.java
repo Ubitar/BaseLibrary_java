@@ -2,29 +2,28 @@ package com.huang.base.ui.activity;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.common.bean.UserBean;
 import com.common.common.IntentRouter;
+import com.common.network.DefaultNetObserver;
 import com.common.saver.UserInfoSaver;
 import com.common.ui.activity.BaseActivity;
 import com.common.ui.adapter.DefActionBarAdapter;
-import com.common.ui.dialog.AlertConfirmDialog;
+import com.common.ui.adapter.FragmentViewPagerAdapter;
 import com.huang.base.R;
 import com.huang.base.bean.BaseResponse;
-import com.common.bean.UserBean;
 import com.huang.base.network.NetworkManager;
 import com.huang.base.network.ResponseCompose;
-import com.common.ui.adapter.FragmentViewPagerAdapter;
 import com.huang.base.ui.delegate.MainDelegate;
 import com.huang.base.ui.fragment.MainFragment;
-import com.common.network.DefaultNetObserver;
 import com.huang.lib.network.SchedulerCompose;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.fragment.app.Fragment;
 
 import butterknife.OnClick;
 import io.reactivex.ObservableSource;

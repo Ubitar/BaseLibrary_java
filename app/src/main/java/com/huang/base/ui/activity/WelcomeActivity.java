@@ -58,8 +58,7 @@ public class WelcomeActivity extends BaseActivity<WelcomeDelegate> {
                                     public void accept(Long aLong) throws Exception {
                                         UserBean testBean = new UserBean();
                                         testBean.setName("123321");
-                                        IntentRouter.build(IntentRouter.MAIN_ACITIVTY)
-                                                .navigation();
+                                        IntentRouter.build(IntentRouter.MAIN_ACITIVTY).navigation();
                                         finish();
                                     }
                                 });

@@ -17,6 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -26,7 +30,9 @@ import butterknife.Unbinder;
 
 public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBackFragment {
 
-    protected int postRefresh = Integer.MAX_VALUE;
+    private HashSet<Integer> postRefreshEvent = new HashSet<>(10);
+
+    private boolean isLazyLoaded = false;
 
     protected S viewDelegate;
 
@@ -48,6 +54,8 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBack
             createMainViewBinding(inflater, container, savedInstanceState);
             ViewGroup view = viewDelegate.onCreateView();
             unbinder = ButterKnife.bind(this, view);
+            initActionBarAdapter(view);
+            viewDelegate.initWidget();
             return viewDelegate.getRootView();
         }
         return viewDelegate.getRootView();
@@ -56,14 +64,17 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBack
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        initActionBarAdapter(viewDelegate.getRootView());
-        viewDelegate.initWidget();
+        isLazyLoaded = true;
     }
 
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
         viewDelegate.onSupportVisible();
+        if (isLazyLoaded) {
+            for (int type : postRefreshEvent) refresh(type);
+            postRefreshEvent.clear();
+        }
     }
 
     @Override
@@ -75,6 +86,7 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBack
     @Override
     public void onDestroyView() {
         if (actionBarAdapter != null) actionBarAdapter.release();
+        actionBarAdapter = null;
         viewDelegate.onDestroyWidget();
         if (unbinder != null) unbinder.unbind();
         unbinder = null;
@@ -88,11 +100,11 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBack
         super.onDestroy();
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    protected boolean onKeyDown(int keyCode, KeyEvent event) {
         return false;
     }
 
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    protected boolean onKeyUp(int keyCode, KeyEvent event) {
         return false;
     }
 
@@ -144,11 +156,11 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBack
         showLoading(message, true, null);
     }
 
-    public void showLoading(String message, boolean cancelable, DialogInterface.
-            OnCancelListener cancelListener) {
+    public void showLoading(String message, boolean cancelable, DialogInterface.OnDismissListener cancelListener) {
         new LoadingDialog.Builder()
                 .setCancelable(cancelable)
                 .setText(message)
+                .setOnDismissListener(cancelListener)
                 .build()
                 .show(getChildFragmentManager(), LoadingDialog.TAG);
     }
@@ -162,7 +174,7 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBack
      */
     public void postRefresh(int type) {
         if (isSupportVisible()) refresh(type);
-        else postRefresh = type;
+        else postRefreshEvent.add(type);
     }
 
     /**

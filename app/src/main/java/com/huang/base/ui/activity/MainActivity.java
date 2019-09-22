@@ -3,6 +3,8 @@ package com.huang.base.ui.activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.common.bean.UserBean;
@@ -12,6 +14,7 @@ import com.common.saver.UserInfoSaver;
 import com.common.ui.activity.BaseActivity;
 import com.common.ui.adapter.DefActionBarAdapter;
 import com.common.ui.adapter.FragmentViewPagerAdapter;
+import com.common.ui.fragment.BaseSupportFragment;
 import com.huang.base.R;
 import com.huang.base.bean.BaseResponse;
 import com.huang.base.network.NetworkManager;
@@ -53,6 +56,8 @@ public class MainActivity extends BaseActivity<MainDelegate> {
         actionBarAdapter.showActionBar();
         //演示点击返回
         actionBarAdapter.setOnClickLeftListener(() -> onBackPressed());
+
+        initShowHideFragment();
     }
 
     @OnClick(R.id.txt)
@@ -97,6 +102,16 @@ public class MainActivity extends BaseActivity<MainDelegate> {
         viewDelegate.setCurrentAt(3);
     }
 
+    @OnClick(R.id.btn)
+    public void onClickBtn() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        BaseSupportFragment fragment = (BaseSupportFragment)fragmentManager.findFragmentByTag("hidden") ;
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (fragment.isFragmentVisible()) fragmentTransaction.hide(fragment);
+        else fragmentTransaction.show(fragment);
+        fragmentTransaction.commit();
+    }
+
     private void initViewPager() {
         adapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
         List<Fragment> fragments = new ArrayList<>(4);
@@ -106,5 +121,13 @@ public class MainActivity extends BaseActivity<MainDelegate> {
         fragments.add(MainFragment.newInstance(3));
         adapter.setFragments(fragments);
         viewDelegate.initViewPager(adapter);
+        viewDelegate.setCurrentAt(3);
+    }
+
+    private void initShowHideFragment() {
+        MainFragment fragment = MainFragment.newInstance(4);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.layoutContainer, fragment, "hidden");
+        fragmentTransaction.commit();
     }
 }

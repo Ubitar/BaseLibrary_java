@@ -22,7 +22,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp300" />
+            android:layout_height="@dimen/dp250" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,15 +74,15 @@
                 android:textSize="@dimen/dp15" />
         </LinearLayout>
 
-        <EditText
+      <FrameLayout
+          android:id="@+id/layoutContainer"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"/>
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp50"
-            android:hint="请输入" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp50"
-            android:hint="请输入" />
+            android:id="@+id/btn"
+            android:text="点击替换上方布局为Fragment"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 

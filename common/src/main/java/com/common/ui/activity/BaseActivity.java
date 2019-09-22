@@ -124,18 +124,19 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     @Override
     protected void onResume() {
         super.onResume();
-        viewDelegate.onResume();
+        viewDelegate.onVisibleWidget();
     }
 
     @Override
     protected void onPause() {
-        viewDelegate.onPause();
+        viewDelegate.onInVisibleWidget();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         if (actionBarAdapter != null) actionBarAdapter.release();
+        actionBarAdapter=null;
         viewDelegate.onDestroyWidget();
         unbinder.unbind();
         unbinder = null;

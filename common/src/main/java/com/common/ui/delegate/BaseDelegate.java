@@ -30,11 +30,11 @@ public abstract class BaseDelegate extends AppDelegate {
         unbinder = ButterKnife.bind(this, rootView);
     }
 
-    public void onPause() {
+    public void onInVisibleWidget() {
 
     }
 
-    public void onResume() {
+    public void onVisibleWidget() {
 
     }
 

@@ -31,6 +31,7 @@ public class MainFragmentDelegate extends BaseDelegate {
         else if (index == 1) bg.setBackgroundColor(Color.GREEN);
         else if (index == 2) bg.setBackgroundColor(Color.BLUE);
         else if (index == 3) bg.setBackgroundColor(Color.GRAY);
+        else if (index == 4) bg.setBackgroundColor(Color.YELLOW);
     }
 
     public void setText(String text) {

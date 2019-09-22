@@ -1,4 +1,4 @@
-package com.huang.base.network;
+package com.common.network;
 
 import android.text.TextUtils;
 

@@ -1,4 +1,4 @@
-package com.huang.base.network;
+package com.huang.base.network.api;
 
 import com.common.bean.BaseResponse;
 import com.common.bean.UserBean;
@@ -8,8 +8,10 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface ApiService {
-    String HOST = "http://192.168.0.3:9095/driverexam/";
+/**
+ * 用户相关接口路由
+ */
+public interface UserApi {
 
     @FormUrlEncoded
     @POST("student/login")

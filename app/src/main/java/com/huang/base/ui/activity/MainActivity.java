@@ -17,8 +17,9 @@ import com.common.ui.adapter.FragmentViewPagerAdapter;
 import com.common.ui.fragment.BaseSupportFragment;
 import com.huang.base.R;
 import com.common.bean.BaseResponse;
-import com.huang.base.network.NetworkManager;
+import com.common.network.NetworkManager;
 import com.common.network.ResponseCompose;
+import com.huang.base.network.model.UserModel;
 import com.huang.base.ui.delegate.MainDelegate;
 import com.huang.base.ui.fragment.MainFragment;
 import com.huang.lib.network.SchedulerCompose;
@@ -36,6 +37,8 @@ import io.reactivex.functions.Function;
 public class MainActivity extends BaseActivity<MainDelegate> {
 
     private FragmentViewPagerAdapter adapter;
+
+    private UserModel userModel=new UserModel();
 
     @Override
     protected Class getDelegateClass() {
@@ -62,13 +65,13 @@ public class MainActivity extends BaseActivity<MainDelegate> {
 
     @OnClick(R.id.txt)
     public void onClickTxt() {
-        NetworkManager.getRequest().login("123", "123")
+        userModel.login("123", "123")
                 .compose(ResponseCompose.parseResult())
                 .flatMap(new Function<UserBean, ObservableSource<BaseResponse<Object>>>() {
                     @Override
                     public ObservableSource<BaseResponse<Object>> apply(UserBean userBean) throws Exception {
                         UserInfoSaver.saveUserInfo(userBean);
-                        return NetworkManager.getRequest().logout(userBean.getToken());
+                        return userModel.logout(userBean.getToken());
                     }
                 })
                 .compose(SchedulerCompose.io2main())
@@ -105,7 +108,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
     @OnClick(R.id.btn)
     public void onClickBtn() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        BaseSupportFragment fragment = (BaseSupportFragment)fragmentManager.findFragmentByTag("hidden") ;
+        BaseSupportFragment fragment = (BaseSupportFragment) fragmentManager.findFragmentByTag("hidden");
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (fragment.isFragmentVisible()) fragmentTransaction.hide(fragment);
         else fragmentTransaction.show(fragment);

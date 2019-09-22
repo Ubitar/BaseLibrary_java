@@ -1,7 +1,6 @@
-package com.huang.base.network;
+package com.common.network;
 
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
-import com.common.network.TokenInterceptor;
 import com.huang.lib.network.LoggerInterceptor;
 
 import java.util.concurrent.TimeUnit;
@@ -13,7 +12,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 public class NetworkManager {
     private static NetworkManager mInstance;
     private static Retrofit retrofit;
-    private static volatile ApiService request = null;
 
     public static NetworkManager init() {
         if (mInstance == null) {
@@ -28,25 +26,23 @@ public class NetworkManager {
 
     private NetworkManager() {
         OkHttpClient client = new OkHttpClient.Builder()
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
                 .addInterceptor(new LoggerInterceptor(LoggerInterceptor.TAG))
                 .addInterceptor(new TokenInterceptor())
                 .build();
         retrofit = new Retrofit.Builder()
                 .client(client)
-                .baseUrl(ApiService.HOST)
+                .baseUrl(Host.DEFAULT_HOST)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(FastJsonConverterFactory.create())
                 .build();
     }
 
-    public static ApiService getRequest() {
-        if (request == null) {
-            synchronized (ApiService.class) {
-                request = retrofit.create(ApiService.class);
-            }
+    public static <T> T getRequest(Class<T> c) {
+        synchronized (c) {
+            return retrofit.create(c);
         }
-        return request;
     }
 }

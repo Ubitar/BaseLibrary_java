@@ -5,7 +5,7 @@ import android.app.Application;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
-import com.huang.base.network.NetworkManager;
+import com.common.network.NetworkManager;
 import com.huang.lib.common.Constant;
 import com.huang.lib.util.L;
 import com.huang.lib.util.T;

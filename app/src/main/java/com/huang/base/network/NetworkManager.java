@@ -1,12 +1,12 @@
 package com.huang.base.network;
 
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
+import com.common.network.TokenInterceptor;
 import com.huang.lib.network.LoggerInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 

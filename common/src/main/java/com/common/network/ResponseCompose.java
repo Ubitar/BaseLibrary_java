@@ -1,6 +1,6 @@
-package com.huang.base.network;
+package com.common.network;
 
-import com.huang.base.bean.BaseResponse;
+import com.common.bean.BaseResponse;
 import com.huang.lib.network.ApiException;
 import com.huang.lib.network.DefaultNetExceptionParser;
 

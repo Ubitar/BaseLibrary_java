@@ -12,7 +12,7 @@ import io.reactivex.Observable;
  * <p>
  * 例如：你传入了一个Bean类，希望通过该Model类进行对类的拆解，取出Bean类中相应的值放入Api接口中作为参数
  * <p>
- * 例如2：你的传入参数需要进行排序签名，可以将代码放置到次数
+ * 例如2：你的传入参数需要进行排序签名，可以将代码放置到此处
  */
 
 public class UserModel extends BaseModel<UserApi> {

@@ -15,7 +15,7 @@ public class DefaultNetExceptionParser {
     public static final int SUCCESS = 200;
     public static final int PARSE_ERROR = 1001;
     public static final int NETWORK_ERROR = 1002;
-    public static final int RESUTL_EMPTY = 1003;
+    public static final int RESULT_EMPTY = 1003;
 
     public static ApiException parse(Throwable e) {
         ApiException ex;

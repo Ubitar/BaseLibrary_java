@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.common.bean.UserBean;
 import com.common.common.IntentRouter;
 import com.common.network.DefaultNetObserver;
+import com.common.network.RetryWhenFunction;
 import com.common.saver.UserInfoSaver;
 import com.common.ui.activity.BaseActivity;
 import com.common.ui.adapter.DefActionBarAdapter;
@@ -67,6 +68,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
     public void onClickTxt() {
         userModel.login("123", "123")
                 .compose(ResponseCompose.parseResult())
+                .retryWhen(new RetryWhenFunction(3000,3))
                 .flatMap(new Function<UserBean, ObservableSource<BaseResponse<Object>>>() {
                     @Override
                     public ObservableSource<BaseResponse<Object>> apply(UserBean userBean) throws Exception {
@@ -76,6 +78,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
                 })
                 .compose(SchedulerCompose.io2main())
                 .compose(ResponseCompose.parseResult())
+                .retryWhen(new RetryWhenFunction(3000,3))
                 .as(AutoDispose.<Object>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
                 .subscribe(new DefaultNetObserver<Object>() {
                     @Override

@@ -28,7 +28,6 @@ public class NetworkManager {
         OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(15, TimeUnit.SECONDS)
                 .connectTimeout(15, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(true)
                 .addInterceptor(new LoggerInterceptor(LoggerInterceptor.TAG))
                 .addInterceptor(new TokenInterceptor())
                 .build();

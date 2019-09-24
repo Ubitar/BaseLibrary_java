@@ -4,13 +4,13 @@ import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.common.common.IntentRouter;
+import com.common.network.RetryWhenFunction;
 import com.common.saver.UserInfoSaver;
 import com.common.ui.activity.BaseActivity;
 import com.common.ui.adapter.DefActionBarAdapter;
 import com.huang.base.R;
 import com.common.bean.BaseResponse;
 import com.common.bean.UserBean;
-import com.common.network.NetworkManager;
 import com.common.network.ResponseCompose;
 import com.common.ui.adapter.FragmentViewPagerAdapter;
 import com.huang.base.network.model.UserModel;
@@ -61,7 +61,8 @@ public class MainActivity extends BaseActivity<MainDelegate> {
     @OnClick(R.id.txt)
     public void onClickTxt() {
         userModel.login("123", "123")
-                .compose(ResponseCompose.parseResult())
+                .compose(ResponseCompose.parseResult())//解析数据
+                .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
                 .flatMap(new Function<UserBean, ObservableSource<BaseResponse<Object>>>() {
                     @Override
                     public ObservableSource<BaseResponse<Object>> apply(UserBean userBean) throws Exception {
@@ -71,6 +72,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
                 })
                 .compose(SchedulerCompose.io2main())
                 .compose(ResponseCompose.parseResult())
+                .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
                 .as(AutoDispose.<Object>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
                 .subscribe(new DefaultNetObserver<Object>() {
                     @Override

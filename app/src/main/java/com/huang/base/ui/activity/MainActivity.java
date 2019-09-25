@@ -18,7 +18,6 @@ import com.common.ui.adapter.FragmentViewPagerAdapter;
 import com.common.ui.fragment.BaseSupportFragment;
 import com.huang.base.R;
 import com.common.bean.BaseResponse;
-import com.common.network.NetworkManager;
 import com.common.network.ResponseCompose;
 import com.huang.base.network.model.UserModel;
 import com.huang.base.ui.delegate.MainDelegate;
@@ -39,7 +38,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
 
     private FragmentViewPagerAdapter adapter;
 
-    private UserModel userModel=new UserModel();
+    private UserModel userModel = new UserModel();
 
     @Override
     protected Class getDelegateClass() {
@@ -67,22 +66,22 @@ public class MainActivity extends BaseActivity<MainDelegate> {
     @OnClick(R.id.txt)
     public void onClickTxt() {
         userModel.login("123", "123")
-                .compose(ResponseCompose.parseResult())
-                .retryWhen(new RetryWhenFunction(3000,3))
-                .flatMap(new Function<UserBean, ObservableSource<BaseResponse<Object>>>() {
+                .compose(ResponseCompose.filterResult())
+                .retryWhen(new RetryWhenFunction(3000, 3))
+                .flatMap(new Function<BaseResponse<UserBean>, ObservableSource<BaseResponse<Object>>>() {
                     @Override
-                    public ObservableSource<BaseResponse<Object>> apply(UserBean userBean) throws Exception {
-                        UserInfoSaver.saveUserInfo(userBean);
-                        return userModel.logout(userBean.getToken());
+                    public ObservableSource<BaseResponse<Object>> apply(BaseResponse<UserBean> response) throws Exception {
+                        UserInfoSaver.saveUserInfo(response.getData());
+                        return userModel.logout(response.getData().getToken());
                     }
                 })
                 .compose(SchedulerCompose.io2main())
-                .compose(ResponseCompose.parseResult())
-                .retryWhen(new RetryWhenFunction(3000,3))
-                .as(AutoDispose.<Object>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-                .subscribe(new DefaultNetObserver<Object>() {
+                .compose(ResponseCompose.filterResult())
+                .retryWhen(new RetryWhenFunction(3000, 3))
+                .as(AutoDispose.<BaseResponse<Object>>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+                .subscribe(new DefaultNetObserver<BaseResponse<Object>>() {
                     @Override
-                    public void onNext(Object e) {
+                    public void onNext(BaseResponse<Object> e) {
                         super.onNext(e);
                     }
                 });

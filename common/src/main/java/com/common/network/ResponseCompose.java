@@ -11,7 +11,7 @@ import io.reactivex.functions.Function;
 
 public class ResponseCompose {
 
-    public static <T> ObservableTransformer<BaseResponse<T>, T> parseResult() {
+    public static <T> ObservableTransformer<BaseResponse<T>, BaseResponse<T>> filterResult() {
         return upstream -> upstream
                 .onErrorResumeNext(new ErrorResumeFunction<>())
                 .flatMap(new ResponseFunction<>());
@@ -36,19 +36,20 @@ public class ResponseCompose {
      *
      * @param <T>
      */
-    private static class ResponseFunction<T> implements Function<BaseResponse<T>, ObservableSource<T>> {
+    private static class ResponseFunction<T> implements Function<BaseResponse<T>, ObservableSource<BaseResponse<T>>> {
 
         @Override
-        public ObservableSource<T> apply(BaseResponse<T> tResponse) throws Exception {
+        public ObservableSource<BaseResponse<T>> apply(BaseResponse<T> tResponse) throws Exception {
             int code = tResponse.getCode();
             String message = tResponse.getMsg();
             if (code == DefaultNetExceptionParser.SUCCESS) {
-                if (tResponse.getData() == null)
-                    return Observable.error(new ApiException(DefaultNetExceptionParser.RESULT_EMPTY, message));
-                else return Observable.just(tResponse.getData());
+                return Observable.just(tResponse);
             } else {
                 return Observable.error(new ApiException(code, message));
             }
         }
     }
+
 }
+
+

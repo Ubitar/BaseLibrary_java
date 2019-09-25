@@ -61,22 +61,22 @@ public class MainActivity extends BaseActivity<MainDelegate> {
     @OnClick(R.id.txt)
     public void onClickTxt() {
         userModel.login("123", "123")
-                .compose(ResponseCompose.parseResult())//解析数据
+                .compose(ResponseCompose.filterResult())//过滤数据
                 .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
-                .flatMap(new Function<UserBean, ObservableSource<BaseResponse<Object>>>() {
+                .flatMap(new Function<BaseResponse<UserBean>, ObservableSource<BaseResponse<Object>>>() {
                     @Override
-                    public ObservableSource<BaseResponse<Object>> apply(UserBean userBean) throws Exception {
-                        UserInfoSaver.saveUserInfo(userBean);
-                        return userModel.logout(userBean.getToken());
+                    public ObservableSource<BaseResponse<Object>> apply(BaseResponse<UserBean> response) throws Exception {
+                        UserInfoSaver.saveUserInfo(response.getData());
+                        return userModel.logout(response.getData().getToken());
                     }
                 })
                 .compose(SchedulerCompose.io2main())
-                .compose(ResponseCompose.parseResult())
+                .compose(ResponseCompose.filterResult())
                 .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
-                .as(AutoDispose.<Object>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-                .subscribe(new DefaultNetObserver<Object>() {
+                .as(AutoDispose.<BaseResponse<Object>>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+                .subscribe(new DefaultNetObserver<BaseResponse<Object>>() {
                     @Override
-                    public void onNext(Object e) {
+                    public void onNext(BaseResponse<Object> e) {
                         super.onNext(e);
                     }
                 });

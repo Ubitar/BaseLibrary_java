@@ -98,26 +98,20 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSupportFr
         if (loadingDialog != null) loadingDialog.dismiss();
     }
 
-    //fragment可见状态改变  onResume+setUserVisibleHint+onPause
-    protected void onFragmentVisibleChange(boolean isVisible) {
-        if (isVisible) {
-            if (isFirstVisible) {
-                for (int type : postRefreshEvent) refresh(type);
-                postRefreshEvent.clear();
-            }
+    @Override
+    protected void onFragmentVisible() {
+        super.onFragmentVisible();
+        if (!isFirstVisible) {
+            for (int type : postRefreshEvent) refresh(type);
+            postRefreshEvent.clear();
         }
-    }
-
-    //懒加载
-    protected void onFragmentFirstVisible() {
-        //todo 继承使用
     }
 
     /**
      * 在fragment有空(出现在用于面前)的时候再刷新
      */
     public void postRefresh(int type) {
-        if (isFirstVisible) refresh(type);
+        if (isFragmentVisible) refresh(type);
         else postRefreshEvent.add(type);
     }
 

@@ -35,8 +35,13 @@ public class MainFragment extends BaseFragment<MainFragmentDelegate> {
     }
 
     @Override
-    protected void onFragmentVisibleChange(boolean isVisible) {
-        super.onFragmentVisibleChange(isVisible);
+    protected void onFragmentVisible() {
+        super.onFragmentVisible();
+    }
+
+    @Override
+    protected void onFragmentInVisible() {
+        super.onFragmentInVisible();
     }
 
     @OnClick(R.id.txt)

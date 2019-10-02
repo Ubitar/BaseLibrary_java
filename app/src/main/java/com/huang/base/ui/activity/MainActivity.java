@@ -16,7 +16,6 @@ import com.common.ui.adapter.FragmentViewPagerAdapter;
 import com.huang.base.network.model.UserModel;
 import com.huang.base.ui.delegate.MainDelegate;
 import com.huang.base.ui.fragment.MainFragment;
-import com.common.network.DefaultNetObserver;
 import com.huang.lib.network.SchedulerCompose;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
@@ -28,6 +27,7 @@ import androidx.fragment.app.Fragment;
 
 import butterknife.OnClick;
 import io.reactivex.ObservableSource;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 @Route(path = IntentRouter.MAIN_ACITIVTY)
@@ -61,6 +61,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
     @OnClick(R.id.txt)
     public void onClickTxt() {
         userModel.login("123", "123")
+                .compose(SchedulerCompose.io2main())
                 .compose(ResponseCompose.filterResult())//过滤数据
                 .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
                 .flatMap(new Function<BaseResponse<UserBean>, ObservableSource<BaseResponse<Object>>>() {
@@ -74,12 +75,16 @@ public class MainActivity extends BaseActivity<MainDelegate> {
                 .compose(ResponseCompose.filterResult())
                 .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
                 .as(AutoDispose.<BaseResponse<Object>>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-                .subscribe(new DefaultNetObserver<BaseResponse<Object>>() {
-                    @Override
-                    public void onNext(BaseResponse<Object> e) {
-                        super.onNext(e);
-                    }
-                });
+                .subscribe(objectBaseResponse -> {
+                            System.out.println("网络请求成功");
+                        }, throwable -> {
+                            hideLoading();
+                        }, () -> {
+                            hideLoading();
+                        }, (disposable) -> {
+                            showLoading();
+                        }
+                );
     }
 
     @OnClick(R.id.tab1)

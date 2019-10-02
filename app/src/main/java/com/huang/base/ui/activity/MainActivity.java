@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.common.bean.UserBean;
 import com.common.common.IntentRouter;
-import com.common.network.DefaultNetObserver;
 import com.common.network.RetryWhenFunction;
 import com.common.saver.UserInfoSaver;
 import com.common.ui.activity.BaseActivity;
@@ -79,12 +78,16 @@ public class MainActivity extends BaseActivity<MainDelegate> {
                 .compose(ResponseCompose.filterResult())
                 .retryWhen(new RetryWhenFunction(3000, 3))
                 .as(AutoDispose.<BaseResponse<Object>>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-                .subscribe(new DefaultNetObserver<BaseResponse<Object>>() {
-                    @Override
-                    public void onNext(BaseResponse<Object> e) {
-                        super.onNext(e);
-                    }
-                });
+                .subscribe(objectBaseResponse -> {
+                            System.out.println("网络请求成功");
+                        }, throwable -> {
+                            hideLoading();
+                        }, () -> {
+                            hideLoading();
+                        }, (disposable) -> {
+                            showLoading();
+                        }
+                );
     }
 
     @OnClick(R.id.tab1)

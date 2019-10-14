@@ -1,4 +1,4 @@
-package com.huang.lib.network;
+package com.common.network;
 
 import android.text.TextUtils;
 import android.util.Log;

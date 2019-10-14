@@ -1,8 +1,6 @@
 package com.common.network;
 
 import com.common.bean.BaseResponse;
-import com.huang.lib.network.ApiException;
-import com.huang.lib.network.DefaultNetExceptionParser;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -45,7 +43,9 @@ public class ResponseCompose {
             if (code == DefaultNetExceptionParser.SUCCESS) {
                 return Observable.just(tResponse);
             } else {
-                return Observable.error(new ApiException(code, message));
+                ApiException exception=new ApiException(code,message);
+                exception.setData(tResponse);
+                return Observable.error(exception);
             }
         }
     }

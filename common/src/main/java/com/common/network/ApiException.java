@@ -1,8 +1,11 @@
-package com.huang.lib.network;
+package com.common.network;
+
+import com.common.bean.BaseResponse;
 
 public class ApiException extends Exception {
     private int code;
     private String displayMessage;
+    private BaseResponse data;
 
     public ApiException(int code, String displayMessage) {
         this.code = code;
@@ -29,5 +32,13 @@ public class ApiException extends Exception {
 
     public void setDisplayMessage(String displayMessage) {
         this.displayMessage = displayMessage;
+    }
+
+    public BaseResponse getData() {
+        return data;
+    }
+
+    public void setData(BaseResponse data) {
+        this.data = data;
     }
 }

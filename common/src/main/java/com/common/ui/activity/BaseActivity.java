@@ -235,6 +235,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     public void showLoading(String message, boolean cancelable, DialogInterface.
             OnDismissListener cancelListener) {
+        if(isDestroyed()||isFinishing()||loadingDialog!=null) return;
         loadingDialog = new LoadingDialog.Builder()
                 .setCancelable(cancelable)
                 .setText(message)
@@ -244,7 +245,9 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     }
 
     public void hideLoading() {
-        if (loadingDialog != null) loadingDialog.dismiss();
+        if(isDestroyed()||isFinishing()) return;
+        if (loadingDialog != null) loadingDialog.dismissAllowingStateLoss();
+        loadingDialog=null;
     }
 
     protected BaseActivity getActivity() {

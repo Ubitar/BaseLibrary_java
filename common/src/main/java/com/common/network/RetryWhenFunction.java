@@ -1,8 +1,5 @@
 package com.common.network;
 
-import com.huang.lib.network.ApiException;
-import com.huang.lib.network.DefaultNetExceptionParser;
-
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;

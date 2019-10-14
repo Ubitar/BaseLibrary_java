@@ -86,16 +86,18 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSupportFr
 
     public void showLoading(String message, boolean cancelable, DialogInterface.
             OnDismissListener cancelListener) {
-        new LoadingDialog.Builder()
+        if (isDetached() || isInLayout() || isRemoving() || loadingDialog != null) return;
+        loadingDialog = new LoadingDialog.Builder()
                 .setCancelable(cancelable)
                 .setText(message)
                 .setOnDismissListener(cancelListener)
-                .build()
-                .show(getChildFragmentManager(), LoadingDialog.TAG);
+                .build();
+        loadingDialog.show(getChildFragmentManager(), LoadingDialog.TAG);
     }
 
     public void hideLoading() {
-        if (loadingDialog != null) loadingDialog.dismiss();
+        if (loadingDialog != null) loadingDialog.dismissAllowingStateLoss();
+        loadingDialog = null;
     }
 
     @Override

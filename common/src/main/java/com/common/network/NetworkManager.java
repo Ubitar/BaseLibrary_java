@@ -1,7 +1,6 @@
 package com.common.network;
 
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
-import com.huang.lib.network.LoggerInterceptor;
 
 import java.util.concurrent.TimeUnit;
 

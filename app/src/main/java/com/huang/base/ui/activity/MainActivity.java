@@ -21,7 +21,7 @@ import com.common.network.ResponseCompose;
 import com.huang.base.network.model.UserModel;
 import com.huang.base.ui.delegate.MainDelegate;
 import com.huang.base.ui.fragment.MainFragment;
-import com.huang.lib.network.SchedulerCompose;
+import com.common.network.SchedulerCompose;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 

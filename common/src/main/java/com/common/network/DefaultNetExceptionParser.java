@@ -1,9 +1,8 @@
-package com.huang.lib.network;
+package com.common.network;
 
 import android.net.ParseException;
 
 import com.alibaba.fastjson.JSONException;
-import com.huang.lib.network.ApiException;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;

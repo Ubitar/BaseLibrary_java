@@ -233,7 +233,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSwipeBack
 
     public void showLoading(String message, boolean cancelable, DialogInterface.
             OnDismissListener cancelListener) {
-        if(isDestroyed()||isFinishing()) return;
+        if(isDestroyed()||isFinishing()||loadingDialog!=null) return;
         loadingDialog = new LoadingDialog.Builder()
                 .setCancelable(cancelable)
                 .setText(message)
@@ -245,6 +245,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSwipeBack
     public void hideLoading() {
         if(isDestroyed()||isFinishing()) return;
         if (loadingDialog != null) loadingDialog.dismissAllowingStateLoss();
+        loadingDialog=null;
     }
 
     protected BaseActivity getActivity() {

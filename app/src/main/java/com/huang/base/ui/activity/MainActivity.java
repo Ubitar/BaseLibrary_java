@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 
 import butterknife.OnClick;
 import io.reactivex.ObservableSource;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
 @Route(path = IntentRouter.MAIN_ACITIVTY)
@@ -73,15 +74,11 @@ public class MainActivity extends BaseActivity<MainDelegate> {
                 .compose(SchedulerCompose.io2main())
                 .compose(ResponseCompose.filterResult())
                 .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
+                .doOnSubscribe((disposable) -> showLoading())
+                .doFinally(() -> hideLoading())
                 .as(AutoDispose.<BaseResponse<Object>>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
                 .subscribe(objectBaseResponse -> {
                             System.out.println("网络请求成功");
-                        }, throwable -> {
-                            hideLoading();
-                        }, () -> {
-                            hideLoading();
-                        }, (disposable) -> {
-                            showLoading();
                         }
                 );
     }

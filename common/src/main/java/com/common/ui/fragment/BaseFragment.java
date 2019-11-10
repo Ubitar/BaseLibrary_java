@@ -31,11 +31,11 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSupportFr
 
     private HashSet<Integer> postRefreshEvent = new HashSet<>(10);
 
-    protected Unbinder unbinder;
+    private Unbinder unbinder;
 
-    protected BaseActionBarAdapter actionBarAdapter;
+    private BaseActionBarAdapter actionBarAdapter;
 
-    protected LoadingDialog loadingDialog;
+    private LoadingDialog loadingDialog;
 
     @Nullable
     @Override
@@ -51,9 +51,9 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSupportFr
     public void onDestroyView() {
         if (actionBarAdapter != null) actionBarAdapter.release();
         actionBarAdapter = null;
-        super.onDestroyView();
         if (unbinder != null) unbinder.unbind();
         unbinder = null;
+        super.onDestroyView();
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

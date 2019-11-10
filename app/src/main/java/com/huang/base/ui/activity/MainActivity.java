@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
     @OnClick(R.id.txt)
     public void onClickTxt() {
         userModel.login("123", "123")
-                .compose(ResponseCompose.filterResult())
+                .compose(ResponseCompose.parseResult())
                 .retryWhen(new RetryWhenFunction(3000, 3))
                 .flatMap(new Function<BaseResponse<UserBean>, ObservableSource<BaseResponse<Object>>>() {
                     @Override
@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
                     }
                 })
                 .compose(SchedulerCompose.io2main())
-                .compose(ResponseCompose.filterResult())
+                .compose(ResponseCompose.parseResult())
                 .retryWhen(new RetryWhenFunction(3000, 3))
                 .as(AutoDispose.<BaseResponse<Object>>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
                 .subscribe(objectBaseResponse -> {

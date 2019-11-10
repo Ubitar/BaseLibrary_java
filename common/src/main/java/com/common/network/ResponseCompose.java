@@ -9,7 +9,7 @@ import io.reactivex.functions.Function;
 
 public class ResponseCompose {
 
-    public static <T> ObservableTransformer<BaseResponse<T>, BaseResponse<T>> filterResult() {
+    public static <T> ObservableTransformer<BaseResponse<T>, BaseResponse<T>> parseResult() {
         return upstream -> upstream
                 .onErrorResumeNext(new ErrorResumeFunction<>())
                 .flatMap(new ResponseFunction<>());

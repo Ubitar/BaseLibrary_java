@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -20,8 +21,10 @@ import androidx.fragment.app.Fragment;
 import com.common.ui.adapter.BaseActionBarAdapter;
 import com.common.ui.delegate.BaseDelegate;
 import com.common.ui.dialog.LoadingDialog;
+import com.common.ui.fragment.BaseFragment;
 import com.gyf.barlibrary.ImmersionBar;
 import com.huang.lib.util.ActivityManager;
+import com.huang.lib.util.KeyboardUtil;
 import com.huang.lib.util.SoftInputUtil;
 import com.huang.lib.util.T;
 import com.noober.background.BackgroundLibrary;
@@ -39,7 +42,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     protected S viewDelegate;
 
     protected boolean isDoubleBack;
-    protected boolean autoHideKeyBoard=true;
+    protected boolean autoHideKeyBoard = true;
     protected long curMillsTime;
 
     protected ImmersionBar immersionBar;
@@ -74,7 +77,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
         immersionBar = ImmersionBar.with(this);
         immersionBar.statusBarDarkFont(true)
-                .keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE )
+                .keyboardEnable(true, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 .navigationBarColor(android.R.color.white).init();
 
         initActionBarAdapter(rootView);
@@ -115,6 +118,35 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (onKeyDUForFragment(getSupportFragmentManager().getFragments(), keyCode, event))
+            return true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (onKeyDUForFragment(getSupportFragmentManager().getFragments(), keyCode, event))
+            return true;
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private Boolean onKeyDUForFragment(List<Fragment> rootFragmentList, int keyCode, KeyEvent event) {
+        if (rootFragmentList != null) {
+            for (Fragment fragment : rootFragmentList) {
+                if (fragment == null) continue;
+                if (fragment instanceof BaseFragment) {
+                    if (((BaseFragment) fragment).onKeyDown(keyCode, event))
+                        return true;
+                    else
+                        return onKeyDUForFragment(fragment.getChildFragmentManager().getFragments(), keyCode, event);
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void finish() {
         SoftInputUtil.hideSoftKeyboard(this);
         super.finish();
@@ -135,9 +167,9 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     @Override
     protected void onDestroy() {
-        if (actionBarAdapter != null) actionBarAdapter.release();
-        actionBarAdapter=null;
         viewDelegate.onDestroyWidget();
+        if (actionBarAdapter != null) actionBarAdapter.release();
+        actionBarAdapter = null;
         unbinder.unbind();
         unbinder = null;
         viewDelegate = null;
@@ -150,25 +182,11 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (autoHideKeyBoard && ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if (isShouldHideInput(v, ev)) {
+            if (KeyboardUtil.isShouldHideInput(v, ev)) {
                 SoftInputUtil.hideKeyboardWithView(v);
             }
         }
         return super.dispatchTouchEvent(ev);
-    }
-
-
-    private boolean isShouldHideInput(View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
-            int[] l = {0, 0};
-            v.getLocationInWindow(l);
-            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left + v.getWidth();
-            if (event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom) {
-                return false;
-            } else return true;
-        }
-        return false;
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -235,7 +253,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     public void showLoading(String message, boolean cancelable, DialogInterface.
             OnDismissListener cancelListener) {
-        if(isDestroyed()||isFinishing()||loadingDialog!=null) return;
+        if (isDestroyed() || isFinishing() || loadingDialog != null) return;
         loadingDialog = new LoadingDialog.Builder()
                 .setCancelable(cancelable)
                 .setText(message)
@@ -245,9 +263,9 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
     }
 
     public void hideLoading() {
-        if(isDestroyed()||isFinishing()) return;
+        if (isDestroyed() || isFinishing()) return;
         if (loadingDialog != null) loadingDialog.dismissAllowingStateLoss();
-        loadingDialog=null;
+        loadingDialog = null;
     }
 
     protected BaseActivity getActivity() {

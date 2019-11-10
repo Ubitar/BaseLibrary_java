@@ -27,7 +27,6 @@ import androidx.fragment.app.Fragment;
 
 import butterknife.OnClick;
 import io.reactivex.ObservableSource;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
 @Route(path = IntentRouter.MAIN_ACITIVTY)
@@ -62,7 +61,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
     public void onClickTxt() {
         userModel.login("123", "123")
                 .compose(SchedulerCompose.io2main())
-                .compose(ResponseCompose.filterResult())//过滤数据
+                .compose(ResponseCompose.parseResult())//过滤数据
                 .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
                 .flatMap(new Function<BaseResponse<UserBean>, ObservableSource<BaseResponse<Object>>>() {
                     @Override
@@ -72,7 +71,7 @@ public class MainActivity extends BaseActivity<MainDelegate> {
                     }
                 })
                 .compose(SchedulerCompose.io2main())
-                .compose(ResponseCompose.filterResult())
+                .compose(ResponseCompose.parseResult())
                 .retryWhen(new RetryWhenFunction(3000, 3))//网络问题重试请求
                 .doOnSubscribe((disposable) -> showLoading())
                 .doFinally(() -> hideLoading())

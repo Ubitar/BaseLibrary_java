@@ -85,9 +85,9 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBack
 
     @Override
     public void onDestroyView() {
+        viewDelegate.onDestroyWidget();
         if (actionBarAdapter != null) actionBarAdapter.release();
         actionBarAdapter = null;
-        viewDelegate.onDestroyWidget();
         if (unbinder != null) unbinder.unbind();
         unbinder = null;
         initFragmentStatus();
@@ -100,11 +100,11 @@ public abstract class BaseFragment<S extends BaseDelegate> extends BaseSwipeBack
         super.onDestroy();
     }
 
-    protected boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         return false;
     }
 
-    protected boolean onKeyUp(int keyCode, KeyEvent event) {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
         return false;
     }
 

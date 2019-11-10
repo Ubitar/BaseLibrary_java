@@ -20,8 +20,10 @@ import androidx.fragment.app.Fragment;
 import com.common.ui.adapter.BaseActionBarAdapter;
 import com.common.ui.delegate.BaseDelegate;
 import com.common.ui.dialog.LoadingDialog;
+import com.common.ui.fragment.BaseFragment;
 import com.gyf.barlibrary.ImmersionBar;
 import com.huang.lib.util.ActivityManager;
+import com.huang.lib.util.KeyboardUtil;
 import com.huang.lib.util.SoftInputUtil;
 import com.huang.lib.util.T;
 import com.noober.background.BackgroundLibrary;
@@ -105,7 +107,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSwipeBack
 
     @Override
     public void onBackPressedSupport() {
-        if (isDoubleBack && getSupportFragmentManager().getBackStackEntryCount() <=1) {
+        if (isDoubleBack && getSupportFragmentManager().getBackStackEntryCount() <= 1) {
             if (System.currentTimeMillis() - curMillsTime < 1500) super.onBackPressedSupport();
             else {
                 curMillsTime = System.currentTimeMillis();
@@ -135,8 +137,9 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSwipeBack
 
     @Override
     protected void onDestroy() {
-        if (actionBarAdapter != null) actionBarAdapter.release();
         viewDelegate.onDestroyWidget();
+        if (actionBarAdapter != null) actionBarAdapter.release();
+        actionBarAdapter = null;
         unbinder.unbind();
         unbinder = null;
         viewDelegate = null;
@@ -149,25 +152,58 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSwipeBack
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (autoHideKeyBoard && ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if (isShouldHideInput(v, ev)) {
+            if (KeyboardUtil.isShouldHideInput(v, ev)) {
                 SoftInputUtil.hideKeyboardWithView(v);
             }
         }
         return super.dispatchTouchEvent(ev);
     }
 
-    private boolean isShouldHideInput(View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
-            int[] l = {0, 0};
-            v.getLocationInWindow(l);
-            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left + v.getWidth();
-            if (event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom) {
-                return false;
-            } else return true;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (onKeyDownForFragment(getSupportFragmentManager().getFragments(), keyCode, event))
+            return true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (onKeyUpForFragment(getSupportFragmentManager().getFragments(), keyCode, event))
+            return true;
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private Boolean onKeyDownForFragment(List<Fragment> rootFragmentList, int keyCode, KeyEvent event) {
+        if (rootFragmentList != null) {
+            for (Fragment fragment : rootFragmentList) {
+                if (fragment == null) continue;
+                if (fragment instanceof BaseFragment) {
+                    if (((BaseFragment) fragment).onKeyDown(keyCode, event))
+                        return true;
+                    else
+                        return onKeyDownForFragment(fragment.getChildFragmentManager().getFragments(), keyCode, event);
+                }
+            }
         }
         return false;
     }
+
+    private Boolean onKeyUpForFragment(List<Fragment> rootFragmentList, int keyCode, KeyEvent event) {
+        if (rootFragmentList != null) {
+            for (Fragment fragment : rootFragmentList) {
+                if (fragment == null) continue;
+                if (fragment instanceof BaseFragment) {
+                    if (((BaseFragment) fragment).onKeyDown(keyCode, event))
+                        return true;
+                    else
+                        return onKeyUpForFragment(fragment.getChildFragmentManager().getFragments(), keyCode, event);
+                }
+            }
+        }
+        return false;
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         if (this.viewDelegate.getOptionsMenuId() != 0) {
@@ -233,7 +269,7 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSwipeBack
 
     public void showLoading(String message, boolean cancelable, DialogInterface.
             OnDismissListener cancelListener) {
-        if(isDestroyed()||isFinishing()||loadingDialog!=null) return;
+        if (isDestroyed() || isFinishing() || loadingDialog != null) return;
         loadingDialog = new LoadingDialog.Builder()
                 .setCancelable(cancelable)
                 .setText(message)
@@ -243,9 +279,9 @@ public abstract class BaseActivity<S extends BaseDelegate> extends BaseSwipeBack
     }
 
     public void hideLoading() {
-        if(isDestroyed()||isFinishing()) return;
+        if (isDestroyed() || isFinishing()) return;
         if (loadingDialog != null) loadingDialog.dismissAllowingStateLoss();
-        loadingDialog=null;
+        loadingDialog = null;
     }
 
     protected BaseActivity getActivity() {

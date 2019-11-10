@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -119,19 +118,19 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (onKeyDUForFragment(getSupportFragmentManager().getFragments(), keyCode, event))
+        if (onKeyDownForFragment(getSupportFragmentManager().getFragments(), keyCode, event))
             return true;
         return super.onKeyDown(keyCode, event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (onKeyDUForFragment(getSupportFragmentManager().getFragments(), keyCode, event))
+        if (onKeyUpForFragment(getSupportFragmentManager().getFragments(), keyCode, event))
             return true;
         return super.onKeyUp(keyCode, event);
     }
 
-    private Boolean onKeyDUForFragment(List<Fragment> rootFragmentList, int keyCode, KeyEvent event) {
+    private Boolean onKeyDownForFragment(List<Fragment> rootFragmentList, int keyCode, KeyEvent event) {
         if (rootFragmentList != null) {
             for (Fragment fragment : rootFragmentList) {
                 if (fragment == null) continue;
@@ -139,7 +138,22 @@ public abstract class BaseActivity<S extends BaseDelegate> extends AppCompatActi
                     if (((BaseFragment) fragment).onKeyDown(keyCode, event))
                         return true;
                     else
-                        return onKeyDUForFragment(fragment.getChildFragmentManager().getFragments(), keyCode, event);
+                        return onKeyDownForFragment(fragment.getChildFragmentManager().getFragments(), keyCode, event);
+                }
+            }
+        }
+        return false;
+    }
+
+    private Boolean onKeyUpForFragment(List<Fragment> rootFragmentList, int keyCode, KeyEvent event) {
+        if (rootFragmentList != null) {
+            for (Fragment fragment : rootFragmentList) {
+                if (fragment == null) continue;
+                if (fragment instanceof BaseFragment) {
+                    if (((BaseFragment) fragment).onKeyDown(keyCode, event))
+                        return true;
+                    else
+                        return onKeyUpForFragment(fragment.getChildFragmentManager().getFragments(), keyCode, event);
                 }
             }
         }
